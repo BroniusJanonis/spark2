@@ -140,8 +140,52 @@ public class Main {
 
         // DELETE LINE/Object FROM FILE BY ID  (NEBAIGTAS IR SU KLAIDOM !!!!!)
         delete("/deleteTask/:id", (request, response) -> {
+            List<Computer55> list = new ArrayList<>();
+            File fileDir = new File("C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt");
+            BufferedReader in = null;
+            // read file
+            in = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(fileDir), "UTF8"));
+            String line = "";
+            while ((line=in.readLine()) != null) {
+                List<String> arrOfLine = new ArrayList<>(5);
+                String[] splitLine = line.split("\\W+");
+                // for each second variable we put in new list (because id=1; id >0 and 1 is 1'st element
+                for(int i = 0; i < splitLine.length; i++){
+                    if(i%2 != 0 && i != 0){
+                        arrOfLine.add(splitLine[i]);
+                    }
+                }
+                String passedLine = line;
+//                // jei eilutej nera musu id, tai dedam i nauja lista objektu, jog paskui si paduotumem irasymui i faila
+                if(!passedLine.toLowerCase().contains("id="+request.params("id").toLowerCase())){
+                    // put in map from array list
+                    list.add(new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
+                }
+            }
+            // irasau objektu lista paeiliui i faila
+            String filename= "C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt";
+            FileWriter fw = new FileWriter(filename); // will replace the new data
+            for(Computer55 insObj: list) {
+                fw.write(insObj.toString()+"\n");//the string to the file
+            }
+            fw.close();
+            return list.toString();
+        });
 
-            List<String> list = new ArrayList<>();
+        // UPDATE Objekta pagal ID (NEVEIKIA KOLKAS):
+        // reiks kreiptis per > http://localhost:8010/updateTask?id=ID&name=NAME&osname=OSNAME&color=COLOR&ramsize=RAMSIZE
+        put("/updateTask", (request, response) -> {
+            Computer55 computer = new Computer55();
+            List<Computer55> list = new ArrayList<>();
+
+                // gaunam duomenis
+                int id = Integer.parseInt(request.queryParams("id"));
+                String name = request.queryParams("name");
+                String osname = request.queryParams("osname");
+                String color = request.queryParams("color");
+                int ramsize = Integer.parseInt(request.queryParams("ramsize"));
 
             File fileDir = new File("C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt");
             BufferedReader in = null;
@@ -152,29 +196,36 @@ public class Main {
             String line = "";
             while ((line=in.readLine()) != null) {
                 String passedLine = line;
-                String[] splitLine = line.split("\\W+");
-                // jei eiluteje yra musu pasirinktas id, tai jos neperdedame i nauja faila
-                final int[] exist = {0};
-                Arrays.stream(splitLine).forEach(s ->{
-                    if(!s.matches("id="+request.params("id"))){
-                        // jei nera tos eilutes, kurioje yra toks id, tai idedam eiluciu masyva
-                        exist[0]++;
-                    }
-                });
-                if(exist.length > 0){
-                    list.add(passedLine);
+                // jei eilute turi musu id, tai keiciame requestintais duomenis
+                if(passedLine.toLowerCase().contains("id="+request.params("id").toLowerCase())){
+                    computer.setId(id);
+                    computer.setName(name);
+                    computer.setOsname(osname);
+                    computer.setColor(color);
+                    computer.setRamsize(ramsize);
+                    list. add(computer);
                 }
+                // listas nauju duomenu
+                List<String> arrOfLine = new ArrayList<>(5);
+                String[] splitLine = line.split("\\W+");
+                // for each second variable we put in new list (because id=1; id >0 and 1 is 1'st element
+                for(int i = 0; i < splitLine.length; i++){
+                    if(i%2 != 0 && i != 0){
+                        arrOfLine.add(splitLine[i]);
+                    }
+                }
+                // put in map from array list
+                list.add(new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
             }
-
+            // irasau objektu lista paeiliui i faila
             String filename= "C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt";
             FileWriter fw = new FileWriter(filename); // will replace the new data
-            fw.write(list.toString());//the string to the file
+            for(Computer55 insObj: list) {
+                fw.write(insObj.toString()+"\n");//the string to the file
+            }
             fw.close();
-
             return list.toString();
         });
-
-        // UPDATE (NEBAIGTAS):
 
     }
 
