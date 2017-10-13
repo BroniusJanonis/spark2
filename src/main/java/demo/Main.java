@@ -197,25 +197,26 @@ public class Main {
             while ((line=in.readLine()) != null) {
                 String passedLine = line;
                 // jei eilute turi musu id, tai keiciame requestintais duomenis
-                if(passedLine.toLowerCase().contains("id="+request.params("id").toLowerCase())){
+                if(passedLine.toLowerCase().contains("id="+id)){
                     computer.setId(id);
                     computer.setName(name);
                     computer.setOsname(osname);
                     computer.setColor(color);
                     computer.setRamsize(ramsize);
                     list. add(computer);
-                }
-                // listas nauju duomenu
-                List<String> arrOfLine = new ArrayList<>(5);
-                String[] splitLine = line.split("\\W+");
-                // for each second variable we put in new list (because id=1; id >0 and 1 is 1'st element
-                for(int i = 0; i < splitLine.length; i++){
-                    if(i%2 != 0 && i != 0){
-                        arrOfLine.add(splitLine[i]);
+                }else {
+                    // listas nauju duomenu
+                    List<String> arrOfLine = new ArrayList<>(5);
+                    String[] splitLine = line.split("\\W+");
+                    // for each second variable we put in new list (because id=1; id >0 and 1 is 1'st element
+                    for (int i = 0; i < splitLine.length; i++) {
+                        if (i % 2 != 0 && i != 0) {
+                            arrOfLine.add(splitLine[i]);
+                        }
                     }
+                    // put in map from array list
+                    list.add(new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
                 }
-                // put in map from array list
-                list.add(new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
             }
             // irasau objektu lista paeiliui i faila
             String filename= "C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt";

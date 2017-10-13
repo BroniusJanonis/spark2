@@ -1,4 +1,4 @@
 id=242805930, name='test', osname='test', color='test', ramsize=1
-id=233381797, name='test', osname='test', color='test', ramsize=1
-id=947278118, name='test', osname='test', color='test', ramsize=1
+id=233381797, name='NAME', osname='OSNAME', color='COLOR', ramsize=3
+id=947278118, name='NAME', osname='OSNAME', color='COLOR', ramsize=1
 id=117412888, name='test', osname='test', color='test', ramsize=1
