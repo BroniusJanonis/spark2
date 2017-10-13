@@ -1,0 +1,5 @@
+id=475492075, name='test', osname='test', color='test', ramsize=1
+id=825682709, name='test', osname='test', color='test', ramsize=1
+id=632770753, name='test', osname='test', color='test', ramsize=1
+id=16832036, name='test', osname='test', color='test', ramsize=1
+id=935291136, name='test', osname='test', color='test', ramsize=1
