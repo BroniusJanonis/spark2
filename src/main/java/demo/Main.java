@@ -86,7 +86,7 @@ public class Main {
         // GETS OBJECT FROM FILE BY ID
         get("/getTask/:id", (request, response) -> {
 
-            Map<Integer, Computer55> map = new HashMap<>();
+            Map<Integer, Computer> map = new HashMap<>();
 
             File fileDir = new File("C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt");
             BufferedReader in = null;
@@ -107,7 +107,7 @@ public class Main {
                     }
                 }
                 // put in map from array list
-                map.put(Integer.parseInt(arrOfLine.get(0)), new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
+                map.put(Integer.parseInt(arrOfLine.get(0)), new Computer(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
             }
 
             in.close();
@@ -123,7 +123,7 @@ public class Main {
             Random rand = new Random();
             int  n = rand.nextInt(1000000000) + 1;
 
-            Computer55 computer = new Computer55( n ,"test","test","test",1);
+            Computer computer = new Computer( n ,"test","test","test",1);
             try
             {
                 String filename= "C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt";
@@ -140,7 +140,7 @@ public class Main {
 
         // DELETE LINE/Object FROM FILE BY ID  (NEBAIGTAS IR SU KLAIDOM !!!!!)
         delete("/deleteTask/:id", (request, response) -> {
-            List<Computer55> list = new ArrayList<>();
+            List<Computer> list = new ArrayList<>();
             File fileDir = new File("C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt");
             BufferedReader in = null;
             // read file
@@ -161,13 +161,13 @@ public class Main {
 //                // jei eilutej nera musu id, tai dedam i nauja lista objektu, jog paskui si paduotumem irasymui i faila
                 if(!passedLine.toLowerCase().contains("id="+request.params("id").toLowerCase())){
                     // put in map from array list
-                    list.add(new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
+                    list.add(new Computer(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
                 }
             }
             // irasau objektu lista paeiliui i faila
             String filename= "C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt";
             FileWriter fw = new FileWriter(filename); // will replace the new data
-            for(Computer55 insObj: list) {
+            for(Computer insObj: list) {
                 fw.write(insObj.toString()+"\n");//the string to the file
             }
             fw.close();
@@ -177,15 +177,15 @@ public class Main {
         // UPDATE Objekta pagal ID (NEVEIKIA KOLKAS):
         // reiks kreiptis per > http://localhost:8010/updateTask?id=ID&name=NAME&osname=OSNAME&color=COLOR&ramsize=RAMSIZE
         put("/updateTask", (request, response) -> {
-            Computer55 computer = new Computer55();
-            List<Computer55> list = new ArrayList<>();
+            Computer computer = new Computer();
+            List<Computer> list = new ArrayList<>();
 
                 // gaunam duomenis
                 int id = Integer.parseInt(request.queryParams("id"));
                 String name = request.queryParams("name");
-                String osname = request.queryParams("osname");
-                String color = request.queryParams("color");
-                int ramsize = Integer.parseInt(request.queryParams("ramsize"));
+                String type = request.queryParams("osname");
+                String info = request.queryParams("color");
+                int speed = Integer.parseInt(request.queryParams("ramsize"));
 
             File fileDir = new File("C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt");
             BufferedReader in = null;
@@ -200,12 +200,12 @@ public class Main {
                 if(passedLine.toLowerCase().contains("id="+id)){
                     computer.setId(id);
                     computer.setName(name);
-                    computer.setOsname(osname);
-                    computer.setColor(color);
-                    computer.setRamsize(ramsize);
+                    computer.setType(type);
+                    computer.setInfo(info);
+                    computer.setSpeed(speed);
                     list. add(computer);
                 }else {
-                    // listas nauju duomenu
+                    // listas naujos eilutes duomenu
                     List<String> arrOfLine = new ArrayList<>(5);
                     String[] splitLine = line.split("\\W+");
                     // for each second variable we put in new list (because id=1; id >0 and 1 is 1'st element
@@ -215,13 +215,13 @@ public class Main {
                         }
                     }
                     // put in map from array list
-                    list.add(new Computer55(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
+                    list.add(new Computer(Integer.parseInt(arrOfLine.get(0)), arrOfLine.get(1), arrOfLine.get(2), arrOfLine.get(3), Integer.parseInt(arrOfLine.get(4))));
                 }
             }
-            // irasau objektu lista paeiliui i faila
+            // irasau objektu lista paeiliui i faila (perrasau esama faila su nauju list'u)
             String filename= "C:\\Users\\Code Academy\\IdeaProjects\\spark2\\src\\main\\java\\demo\\file.txt";
             FileWriter fw = new FileWriter(filename); // will replace the new data
-            for(Computer55 insObj: list) {
+            for(Computer insObj: list) {
                 fw.write(insObj.toString()+"\n");//the string to the file
             }
             fw.close();
